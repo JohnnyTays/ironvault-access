@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IronVault™ — Secure Access Only</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+ :root { --gold: #C9A84C; --gold-light: #E8C97A; --gold-dark: #9A7A30; --dark: #0A0C10; --dark2: #111318; --dark3: #181C24; --border: #2A3040; --text: #D8DEE9; --text-muted: #8892A4; --green: #4CAF82; }
+ * { margin:0; padding:0; box-sizing:border-box; }
+ body { background:var(--dark); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; font-size:15px; line-height:1.7; }
+ .bg { position:fixed; inset:0; pointer-events:none; z-index:0; background: radial-gradient(ellipse at 70% 20%, rgba(201,168,76,0.06) 0%, transparent 55%); }
+ .hero { background: linear-gradient(135deg, #0A0C10 0%, #0D1018 50%, #080A10 100%); border-bottom: 2px solid var(--gold); padding: 80px 40px 60px; text-align:center; position:relative; z-index:1; }
+ .hero::after { content:''; position:absolute; bottom:-1px; left:0; right:0; height:1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+ .emblem { width:80px; height:80px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 24px; box-shadow: 0 0 40px rgba(201,168,76,0.3), 0 0 80px rgba(201,168,76,0.1); animation: glow 3s ease-in-out infinite; }
+ @keyframes glow { 0%,100%{box-shadow:0 0 40px rgba(201,168,76,0.3),0 0 80px rgba(201,168,76,0.1)} 50%{box-shadow:0 0 60px rgba(201,168,76,0.5),0 0 120px rgba(201,168,76,0.2)} }
+ .hero h1 { font-size:32px; font-weight:800; background:linear-gradient(135deg,#E8C97A,#C9A84C); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:14px; }
+ .hero p { font-size:14px; color:var(--text-muted); max-width:480px; margin:0 auto; }
+ .content { max-width:640px; margin:0 auto; padding:52px 40px; position:relative; z-index:1; }
+ .tag { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+ .card { background:var(--dark3); border:1px solid var(--border); border-left:3px solid var(--gold); padding:24px 28px; margin-bottom:32px; }
+ .card .badge { display:inline-block; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); color:var(--gold-light); font-size:10px; font-weight:700; letter-spacing:2px; padding:4px 12px; text-transform:uppercase; margin-bottom:12px; }
+ .card h3 { font-size:13px; color:var(--gold-light); margin-bottom:12px; }
+ .card p { font-size:13px; color:var(--text-muted); line-height:1.75; margin-bottom:14px; }
+ .card .stat { margin-top:14px; font-size:22px; font-weight:800; color:var(--gold); }
+ .card .stat span { font-size:12px; font-weight:400; color:var(--text-muted); }
+ .list { list-style:none; padding:0; margin-bottom:32px; }
+ .list li { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; color:var(--text-muted); }
+ .list li::before { content:'🔒'; }
+ .list li strong { color:#fff; display:block; margin-bottom:2px; }
+ .nda-box { background:linear-gradient(135deg, rgba(201,168,76,0.05),rgba(201,168,76,0.02)); border:1px solid rgba(201,168,76,0.3); padding:32px; margin-bottom:24px; }
+ .nda-box h4 { font-size:14px; color:var(--gold-light); margin-bottom:8px; }
+ .nda-box > p { font-size:12px; color:var(--text-muted); line-height:1.7; margin-bottom:20px; }
+ form { display:flex; flex-direction:column; gap:12px; }
+ .field { display:flex; flex-direction:column; gap:5px; }
+ .field label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); }
+ .field input, .field textarea { background:var(--dark2); border:1px solid var(--border); color:var(--text); padding:12px 14px; font-size:13px; border-radius:4px; font-family:inherit; width:100%; }
+ .field input:focus, .field textarea:focus { outline:none; border-color:var(--gold); }
+ .field textarea { resize:vertical; min-height:80px; }
+ .checkbox { display:flex; gap:12px; font-size:11px; color:var(--text-muted); line-height:1.6; }
+ .checkbox input { width:16px; height:16px; accent-color:var(--gold); }
+ .submit { width:100%; padding:15px; background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:#000; font-size:14px; font-weight:700; border:none; border-radius:4px; cursor:pointer; font-family:inherit; margin-top:8px; }
+ .submit:hover { opacity:0.85; }
+ .submit:disabled { opacity:0.4; cursor:not-allowed; }
+ .success { display:none; text-align:center; padding:32px; background:linear-gradient(135deg,rgba(76,175,130,0.08),rgba(76,175,130,0.02)); border:1px solid rgba(76,175,130,0.3); margin-bottom:24px; }
+ .success h4 { color:var(--green); font-size:14px; margin-bottom:8px; }
+ .success p { font-size:12px; color:var(--text-muted); }
+ .shield { display:flex; gap:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:16px 18px; font-size:11px; color:var(--text-muted); margin-bottom:24px; }
+ .shield::before { content:'🛡'; font-size:20px; flex-shrink:0; }
+ .alt { text-align:center; font-size:12px; color:var(--text-muted); padding-top:20px; border-top:1px solid var(--border); }
+ .alt a { color:var(--gold-light); text-decoration:underline; }
+ footer { text-align:center; padding:32px 40px; border-top:1px solid var(--border); position:relative; z-index:1; }
+ footer p { font-size:10px; color:var(--text-muted); letter-spacing:1px; }
+ @media(max-width:640px) { .hero{padding:56px 24px 40px} .hero h1{font-size:24px} .content{padding:36px 20px} }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div id="gate">
+ <div class="hero">
+   <div class="emblem">🔐</div>
+   <h1>IronVault™</h1>
+   <p>Access-controlled prior art documentation. Not public. Restricted to qualified parties by invitation only.</p>
+ </div>
+ <div class="content">
+   <div class="tag">Restricted Access — April 2026</div>
+   <div class="card">
+     <div class="badge">ConTech · InsurTech · Web3</div>
+     <h3>Trustless Asset-Sharing Protocol for Heavy Machinery</h3>
+     <p>Structural analysis of the global construction equipment rental market — novel technical architecture to unlock idle contractor fleet CapEx through trustless, parametric, smart-contract-mediated P2P equipment sharing.</p>
+     <div class="stat">$160B (2026) <span>→ $277B (2035) — 5.7% CAGR</span></div>
+   </div>
+   <div>
+     <div class="tag">What's Contained in the Vault</div>
+     <ul class="list">
+       <li><strong>Full 8-Section Venture Architecture Report</strong><span>Complete brief — market sizing, competitive landscape, unit economics, architecture diagrams</span></li>
+       <li><strong>AI-Powered Document Chat</strong><span>Ask any question — Gemini-powered, instant answers from the document itself</span></li>
+       <li><strong>Visual Asset Suite</strong><span>Perceptual map, system architecture diagram, 36-month Gantt chart, ROI waterfall</span></li>
+       <li><strong>Prior Art Filing Documentation</strong><span>35 U.S.C. § 102 — timestamped prior art, SHA-256 hash, deployment records</span></li>
+     </ul>
+   </div>
+   <div class="nda-box" id="nda-section">
+     <h4>🔒 Request Access — NDA Required</h4>
+     <p>This vault is not publicly accessible. Requests are reviewed within 24–48 hours. If approved, you'll receive a secure access code under a signed NDA.</p>
+     <form id="access-form" action="https://formsubmit.co/access@ironledger.vc" method="POST">
+       <input type="hidden" name="_subject" value="IronVault Access Request — IronLedger Prior Art">
+       <input type="hidden" name="_captcha" value="false">
+       <div class="field"><label>Full Name</label><input type="text" name="name" placeholder="Your full name" required></div>
+       <div class="field"><label>Organization</label><input type="text" name="organization" placeholder="Company or fund name" required></div>
+       <div class="field"><label>Professional Role</label><input type="text" name="role" placeholder="e.g. Partner, CTO, Corporate Development" required></div>
+       <div class="field"><label>Work Email</label><input type="email" name="email" placeholder="Company email — no Gmail/Hotmail" required></div>
+       <div class="field"><label>Intended Use / Organization Context</label><textarea name="context" placeholder="Briefly describe your interest and organization. More context = faster review." required></textarea></div>
+       <label class="checkbox"><input type="checkbox" name="nda_agreed" required><span>I acknowledge this document contains proprietary prior art under 35 U.S.C. § 102. All information is confidential. No reproduction or distribution without a signed licensing agreement.</span></label>
+       <button type="submit" class="submit" id="submit-btn">Submit Access Request</button>
+     </form>
+     <div class="success" id="success-msg"><h4>✓ Request Received</h4><p>Your request has been logged. Response within 24–48 hours. If approved, you'll receive a secure access code and NDA for execution.</p></div>
+   </div>
+   <div class="shield">This vault is not indexed by search engines. All requests are logged. Unauthorized access attempts may be referred to legal counsel. Subject to 35 U.S.C. § 102.</div>
+   <div class="alt">Direct contact? <a href="mailto:access@ironledger.vc?subject=Direct Access Inquiry — IronVault">Email access@ironledger.vc</a></div>
+ </div>
+ <footer><p>IronVault™ · IronLedger™ Prior Art Documentation · Confidential · April 2026<br>35 U.S.C. § 102 — All rights reserved · Not for public distribution</p></footer>
+</div>
+<script>
+document.getElementById('access-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('submit-btn');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+  fetch(this.action.replace('formsubmit.co','formsubmit.co/ajax/'), {method:'POST', body:new FormData(this), headers:{'Accept':'application/json'} })
+  .then(function(){ document.getElementById('access-form').style.display='none'; document.getElementById('success-msg').style.display='block'; })
+  .catch(function(){ document.getElementById('access-form').style.display='none'; document.getElementById('success-msg').style.display='block'; });
+});
+</script>
+</body>
+</html>
